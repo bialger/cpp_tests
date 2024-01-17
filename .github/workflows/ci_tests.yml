@@ -1,0 +1,69 @@
+name: "CI tests"
+
+on: [ push ]
+
+jobs:
+  build:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {
+            name: "Windows Latest MSVC", artifact: "Windows-MSVC.tar.xz",
+            os: windows-latest,
+            build_type: "Release", cc: "cl", cxx: "cl",
+            environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
+          }
+          - {
+            name: "Windows Latest MinGW", artifact: "Windows-MinGW.tar.xz",
+            os: windows-latest,
+            build_type: "Release", cc: "gcc", cxx: "g++"
+          }
+          - {
+            name: "Ubuntu Latest GCC", artifact: "Linux.tar.xz",
+            os: ubuntu-latest,
+            build_type: "Release", cc: "gcc", cxx: "g++"
+          }
+          - {
+            name: "macOS Latest Clang", artifact: "macOS.tar.xz",
+            os: macos-latest,
+            build_type: "Release", cc: "clang", cxx: "clang++"
+          }
+    
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create CMake cash
+        run: |
+          cmake -S . -B cmake-build
+
+      - name: Build main target
+        run: |
+          cmake --build cmake-build --target cpp_tests
+
+      - name: Build tests target
+        run: |
+          cmake --build cmake-build --target cpp_tests_tests
+
+      - name: Run program
+        shell: bash
+        working-directory: ./cmake-build/bin
+        run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+              cd Debug
+              ./cpp_tests.exe
+          else 
+              ./cpp_tests
+          fi
+
+      - name: Run tests
+        shell: bash
+        working-directory: ./cmake-build/tests
+        run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+              cd Debug
+              ./cpp_tests_tests.exe
+          else
+              ./cpp_tests_tests
+          fi
