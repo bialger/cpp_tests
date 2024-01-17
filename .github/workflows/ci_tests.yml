@@ -34,7 +34,7 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
-      - name: Create CMake cash
+      - name: Create CMake cache
         run: |
           cmake -S . -B cmake-build
 
@@ -67,3 +67,26 @@ jobs:
           else
               ./cpp_tests_tests
           fi
+
+  memory-leaks:
+    name: Memory leaks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install valgrind
+        run: |
+          sudo apt-get update && sudo apt-get -y install valgrind
+
+      - name: Create CMake cache
+        run: |
+          cmake -S . -B cmake-build
+
+      - name: Build tests target
+        run: |
+          cmake --build cmake-build --target cpp_tests_tests
+
+      - name: Run valgrind
+        working-directory: ./cmake-build/tests
+        run: |
+          valgrind --leak-check=full --track-origins=yes --error-exitcode=1 ./cpp_tests_tests
