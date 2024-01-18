@@ -54,9 +54,23 @@ jobs:
           endif()
 
       - name: Create CMake cache
-        shell: bash
+        shell: cmake -P {0}
         run: |
-          cmake -S . -B cmake-build -DCMAKE_CXX_COMPILER=$CXX -DCMAKE_C_COMPILER=$CC
+          
+          execute_process(
+            COMMAND cmake -S . -B cmake-build -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }}
+            RESULT_WORKING_DIRECTORY build
+            RESULT_VARIABLE result
+            ECHO_OUTPUT_VARIABLE result_output
+            ECHO_ERROR_VARIABLE result_error
+          )
+          
+          if (NOT result EQUAL 0)
+            message(FATAL_ERROR "Running tests failed!")
+          endif()
+          
+          message(STATUS "${result_output}")
+          message(STATUS "${result_error}")
 
       - name: Build main target
         run: |
