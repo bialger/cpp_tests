@@ -4,6 +4,6 @@
 
 int main() {
   MyClass printer(std::cout);
-  printer.Print("Hello, World!");
+  printer.Print("Hello, World!\n");
   return 0;
 }

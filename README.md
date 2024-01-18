@@ -38,7 +38,7 @@ cmake --build cmake-build --target cpp_tests_tests
 * On POSIX:
 
 ```shell
-.\cmake-build\bin\cpp_tests
+./cmake-build/bin/cpp_tests
 ```
 
 5. Run tests
@@ -46,11 +46,11 @@ cmake --build cmake-build --target cpp_tests_tests
 * On Windows:
 
 ```shell
-.\cmake-build\bin\cpp_tests_tests.exe || .\cmake-build\bin\Debug\cpp_tests_tests.exe
+.\cmake-build\tests\cpp_tests_tests.exe || .\cmake-build\tests\Debug\cpp_tests_tests.exe
 ```
 
 * On POSIX:
 
 ```shell
-.\cmake-build\bin\cpp_tests_tests
+./cmake-build/tests/cpp_tests_tests
 ```
