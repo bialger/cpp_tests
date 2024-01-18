@@ -5,10 +5,10 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-    set(CMAKE_CXX_FLAGS_DEBUG "/MDd /fsanitize=address")
+    set(CMAKE_CXX_FLAGS_DEBUG "/MDd")
     set(CMAKE_CXX_FLAGS_RELEASE "/O2")
 else ()
-    set(CMAKE_CXX_FLAGS_DEBUG "-g -fsanitize=address")
+    set(CMAKE_CXX_FLAGS_DEBUG "-g")
     set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 endif()
 
