@@ -23,6 +23,12 @@ target_link_libraries(
         GTest::gtest_main
 )
 
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Debug) # Tests should be built with Debug
+endif()
+
+message(STATUS "Tests build type: ${CMAKE_BUILD_TYPE}")
+
 target_include_directories(${PROJECT_NAME}_tests PUBLIC ${PROJECT_SOURCE_DIR})
 
 include(GoogleTest)
