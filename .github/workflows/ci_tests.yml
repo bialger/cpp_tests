@@ -35,6 +35,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Create CMake cache
+        env:
+          CC: ${{ matrix.config.cc }}
+          CXX: ${{ matrix.config.cxx }}
         run: |
           cmake -S . -B cmake-build
 
