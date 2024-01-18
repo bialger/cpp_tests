@@ -1,6 +1,9 @@
 #include <iostream>
 
+#include "lib/mylib/MyClass.h"
+
 int main() {
-  std::cout << "Hello, World!" << std::endl;
+  MyClass printer(std::cout);
+  printer.Print("Hello, World!");
   return 0;
 }
