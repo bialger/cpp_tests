@@ -1,4 +1,5 @@
 add_library(mylib STATIC
         MyClass.cpp
-        MyClass.hpp
 )
+
+target_include_directories(mylib PUBLIC "${PROJECT_SOURCE_DIR}/includes")

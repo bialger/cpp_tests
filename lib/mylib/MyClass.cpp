@@ -1,4 +1,4 @@
-#include "MyClass.hpp"
+#include "mylib/MyClass.hpp"
 
 MyClass::MyClass(std::ostream& out) : out_(out) {}
 

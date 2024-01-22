@@ -1,6 +1,7 @@
 #include <iostream>
 
-#include "lib/ui/ui_functions.hpp"
+#include "ui/ui_functions.hpp"
+#include "mylib/MyClass.hpp"
 
 int main(int32_t argc, char** argv) {
   std::vector<std::string> args = std::vector<std::string>(argv, argv + argc);

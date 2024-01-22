@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 #include "ProjectIntegrationTestSuite.hpp"
 #include "test_functions.hpp"
-#include "lib/ui/ui_functions.hpp" // include your library here
+#include "ui/ui_functions.hpp" // include your library here
 
 TEST_F(ProjectIntegrationTestSuite, InitTest) {
   ASSERT_TRUE(std::filesystem::is_directory(kTemporaryDirectoryName));
