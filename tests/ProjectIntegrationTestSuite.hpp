@@ -7,7 +7,7 @@
 #include <gtest/gtest.h>
 
 struct ProjectIntegrationTestSuite : public testing::Test { // special test structure
-  const std::string dirname = "./gtest_tmp";
+  const std::string kTemporaryDirectoryName = "./gtest_tmp";
 
   void SetUp() override; // method that is called at the beginning of every test
 

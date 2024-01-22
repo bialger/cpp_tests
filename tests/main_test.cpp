@@ -6,5 +6,5 @@
 #include "lib/mylib/MyClass.h"
 
 TEST_F(ProjectIntegrationTestSuite, InitTest) {
-  ASSERT_TRUE(std::filesystem::is_directory(dirname));
+  ASSERT_TRUE(std::filesystem::is_directory(kTemporaryDirectoryName));
 }
