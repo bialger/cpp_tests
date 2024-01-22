@@ -24,6 +24,7 @@ add_executable(
 
 target_link_libraries(
         ${PROJECT_NAME}_tests # link used libraries from lib directory
+        ui
         mylib
         GTest::gtest_main
 )

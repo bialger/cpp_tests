@@ -7,3 +7,4 @@ endif()
 message(STATUS "Libraries build type: ${CMAKE_BUILD_TYPE}")
 
 add_subdirectory(mylib)
+add_subdirectory(ui)

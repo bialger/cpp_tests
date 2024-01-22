@@ -1,5 +1,5 @@
-#ifndef MYCLASS_H_
-#define MYCLASS_H_
+#ifndef MYCLASS_HPP_
+#define MYCLASS_HPP_
 
 #include <iostream>
 
@@ -13,4 +13,4 @@ class MyClass {
   std::ostream& out_;
 };
 
-#endif //MYCLASS_H_
+#endif //MYCLASS_HPP_
