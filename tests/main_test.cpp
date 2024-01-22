@@ -2,8 +2,8 @@
 
 #include <gtest/gtest.h>
 #include "ProjectIntegrationTestSuite.hpp"
-#include "test_functions.hpp" // include your library here
-#include "lib/ui/ui_functions.hpp"
+#include "test_functions.hpp"
+#include "lib/ui/ui_functions.hpp" // include your library here
 
 TEST_F(ProjectIntegrationTestSuite, InitTest) {
   ASSERT_TRUE(std::filesystem::is_directory(kTemporaryDirectoryName));
@@ -11,13 +11,13 @@ TEST_F(ProjectIntegrationTestSuite, InitTest) {
 
 TEST_F(ProjectIntegrationTestSuite, PositiveTest1) {
   std::ostringstream out;
-  ASSERT_EQ(StartConsoleUI(SplitString("test -h"), out), 0);
+  ASSERT_EQ(StartConsoleUI(SplitString("test Hello!"), out), 0);
 }
 
 TEST_F(ProjectIntegrationTestSuite, PositiveOutputTest1) {
   std::ostringstream out;
-  StartConsoleUI(SplitString("test -h"), out);
-  ASSERT_EQ(out.str(), "Hello, World!\n");
+  StartConsoleUI(SplitString("test Hello!"), out);
+  ASSERT_EQ(out.str(), "Hello!\n");
 }
 
 TEST_F(ProjectIntegrationTestSuite, NegativeTest1) {

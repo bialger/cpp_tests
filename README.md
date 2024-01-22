@@ -3,7 +3,7 @@
 This is a project template. Feel free to use it. It contains all pre-configured 
 CMakeLists.txt, so to use it, just replace project name with your in 
 [main CmakeLists.txt](CMakeLists.txt), and all target and executable names in 
-[CI/CD script](./.github/workflows/ci_tests.yml).
+[CI/CD script](./.github/workflows/ci_tests.yml). Sample program prints first argument.
 
 ## How to run
 
@@ -32,13 +32,13 @@ cmake --build cmake-build --target cpp_tests_tests
 * On Windows:
 
 ```shell
-.\cmake-build\bin\cpp_tests.exe || .\cmake-build\bin\Debug\cpp_tests.exe
+.\cmake-build\bin\cpp_tests.exe "Hello, World" || .\cmake-build\bin\Debug\cpp_tests.exe "Hello, World"
 ```
 
 * On POSIX:
 
 ```shell
-./cmake-build/bin/cpp_tests
+./cmake-build/bin/cpp_tests "Hello, World"
 ```
 
 5. Run tests
