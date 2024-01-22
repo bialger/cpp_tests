@@ -32,13 +32,13 @@ cmake --build cmake-build --target cpp_tests_tests
 * On Windows:
 
 ```shell
-.\cmake-build\bin\cpp_tests.exe "Hello, World" || .\cmake-build\bin\Debug\cpp_tests.exe "Hello, World"
+.\cmake-build\bin\cpp_tests.exe World || .\cmake-build\bin\Debug\cpp_tests.exe World
 ```
 
 * On POSIX:
 
 ```shell
-./cmake-build/bin/cpp_tests "Hello, World"
+./cmake-build/bin/cpp_tests World
 ```
 
 5. Run tests

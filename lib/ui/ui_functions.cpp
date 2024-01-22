@@ -8,6 +8,6 @@ int32_t StartConsoleUI(const std::vector<std::string>& args, std::ostream& out) 
   }
 
   MyClass printer(out);
-  printer.Print(args[1] + "\n");
+  printer.Print("Hello, " + args[1] + "!\n");
   return 0;
 }

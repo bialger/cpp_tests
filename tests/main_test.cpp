@@ -11,13 +11,13 @@ TEST_F(ProjectIntegrationTestSuite, InitTest) {
 
 TEST_F(ProjectIntegrationTestSuite, PositiveTest1) {
   std::ostringstream out;
-  ASSERT_EQ(StartConsoleUI(SplitString("test Hello!"), out), 0);
+  ASSERT_EQ(StartConsoleUI(SplitString("test World"), out), 0);
 }
 
 TEST_F(ProjectIntegrationTestSuite, PositiveOutputTest1) {
   std::ostringstream out;
-  StartConsoleUI(SplitString("test Hello!"), out);
-  ASSERT_EQ(out.str(), "Hello!\n");
+  StartConsoleUI(SplitString("test World"), out);
+  ASSERT_EQ(out.str(), "Hello, World!\n");
 }
 
 TEST_F(ProjectIntegrationTestSuite, NegativeTest1) {
