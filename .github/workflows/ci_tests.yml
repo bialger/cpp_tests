@@ -4,7 +4,7 @@ on: [ push ]
 
 jobs:
   build:
-    name: ${{ matrix.config.name }}
+    name: Tests and application run on ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
     strategy:
       fail-fast: false
@@ -34,6 +34,7 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
+
       - name: Configure
         shell: cmake -P {0}
         run: |
@@ -56,9 +57,18 @@ jobs:
       - name: Create CMake cache
         shell: cmake -P {0}
         run: |
+          execute_process(
+            COMMAND cmake -S . -B cmake-build-release -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -DCMAKE_BUILD_TYPE=Release
+            RESULT_WORKING_DIRECTORY build
+            RESULT_VARIABLE result
+          )
+          
+          if (NOT result EQUAL 0)
+            message(FATAL_ERROR "Running tests failed!")
+          endif()
           
           execute_process(
-            COMMAND cmake -S . -B cmake-build -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }}
+            COMMAND cmake -S . -B cmake-build-debug -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -DCMAKE_BUILD_TYPE=Debug
             RESULT_WORKING_DIRECTORY build
             RESULT_VARIABLE result
           )
@@ -69,26 +79,26 @@ jobs:
 
       - name: Build main target
         run: |
-          cmake --build cmake-build --target cpp_tests
+          cmake --build cmake-build-release --target cpp_tests
 
       - name: Build tests target
         run: |
-          cmake --build cmake-build --target cpp_tests_tests
+          cmake --build cmake-build-debug --target cpp_tests_tests
 
       - name: Run program
         shell: bash
-        working-directory: ./cmake-build/bin
+        working-directory: ./cmake-build-release/bin
         run: |
           if [ "$RUNNER_OS" == "Windows" ]; then
               cd Debug
-              ./cpp_tests.exe
+              ./cpp_tests.exe --help
           else 
-              ./cpp_tests
+              ./cpp_tests --help
           fi
 
       - name: Run tests
         shell: bash
-        working-directory: ./cmake-build/tests
+        working-directory: ./cmake-build-debug/tests
         run: |
           if [ "$RUNNER_OS" == "Windows" ]; then
               cd Debug
@@ -98,7 +108,7 @@ jobs:
           fi
 
   memory-leaks:
-    name: Memory leaks
+    name: Find memory leaks in tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -109,7 +119,7 @@ jobs:
 
       - name: Create CMake cache
         run: |
-          cmake -S . -B cmake-build
+          cmake -S . -B cmake-build -DCMAKE_BUILD_TYPE=Debug
 
       - name: Build tests target
         run: |
