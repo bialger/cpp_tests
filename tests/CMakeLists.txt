@@ -15,6 +15,11 @@ enable_testing()
 add_executable(
         ${PROJECT_NAME}_tests
         main_test.cpp
+        unit_tests.cpp
+        test_functions.cpp
+        test_functions.hpp
+        ProjectIntegrationTestSuite.cpp
+        ProjectIntegrationTestSuite.hpp
 )
 
 target_link_libraries(
