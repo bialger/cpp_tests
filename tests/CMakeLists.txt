@@ -29,7 +29,7 @@ target_link_libraries(
         GTest::gtest_main
 )
 
-set(MSVC_LIBRARY_PATH lib)
+set(MSVC_LIBRARY_EXTENSION lib)
 set(MINGW_LIBRARY_EXTENSION a)
 set(GTEST_DIR "${CMAKE_BINARY_DIR}/lib")
 
