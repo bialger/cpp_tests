@@ -75,23 +75,25 @@ jobs:
 
       - name: Run program
         shell: bash
-        working-directory: ./cmake-build-release/bin
+        working-directory: ./cmake-build-release
         run: |
           if [ "$RUNNER_OS" == "Windows" ]; then
               cd Debug
               ./cpp_tests.exe --help
           else 
+              cd bin
               ./cpp_tests --help
           fi
 
       - name: Run tests
         shell: bash
-        working-directory: ./cmake-build-debug/tests
+        working-directory: ./cmake-build-debug
         run: |
           if [ "$RUNNER_OS" == "Windows" ]; then
               cd Debug
               ./cpp_tests_tests.exe
           else
+              cd tests
               ./cpp_tests_tests
           fi
 
