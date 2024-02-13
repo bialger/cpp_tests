@@ -29,6 +29,20 @@ target_link_libraries(
         GTest::gtest_main
 )
 
+if(WIN32)
+    if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+        add_custom_command(TARGET ${PROJECT_NAME}_tests POST_BUILD
+                COMMAND "cp" ARGS "${CMAKE_BINARY_DIR}/bin/Debug/gtest.dll" "${CMAKE_BINARY_DIR}/Debug/gtest.dll"
+                COMMAND "cp" ARGS "${CMAKE_BINARY_DIR}/bin/Debug/gtest_main.dll" "${CMAKE_BINARY_DIR}/Debug/gtest_main.dll"
+                COMMENT "Copying to output directory")
+    else ()
+        add_custom_command(TARGET ${PROJECT_NAME}_tests POST_BUILD
+                COMMAND "cp" ARGS "${CMAKE_BINARY_DIR}/bin/libgtest.dll" "${CMAKE_BINARY_DIR}/libgtest.dll"
+                COMMAND "cp" ARGS "${CMAKE_BINARY_DIR}/bin/libgtest_main.dll" "${CMAKE_BINARY_DIR}/libgtest_main.dll"
+                COMMENT "Copying to output directory")
+    endif()
+endif()
+
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug) # Tests should be built with Debug
 endif()
