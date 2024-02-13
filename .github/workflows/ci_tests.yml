@@ -80,8 +80,12 @@ jobs:
         working-directory: ./cmake-build-release
         run: |
           if [ "$RUNNER_OS" == "Windows" ]; then
-              cd Debug
-              ./cpp_tests.exe --help
+              if [ "${{ matrix.config.cxx }}" == "g++" ]; then
+                ./cpp_tests.exe --help
+              else
+                cd Debug
+                ./cpp_tests.exe --help
+              fi
           else 
               cd bin
               ./cpp_tests --help
