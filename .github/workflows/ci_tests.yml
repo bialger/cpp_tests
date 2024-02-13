@@ -55,27 +55,15 @@ jobs:
           endif()
 
       - name: Create CMake cache
-        shell: cmake -P {0}
+        shell: bash
         run: |
-          execute_process(
-            COMMAND cmake -S . -B cmake-build-release -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -DCMAKE_BUILD_TYPE=Release
-            RESULT_WORKING_DIRECTORY build
-            RESULT_VARIABLE result
-          )
-          
-          if (NOT result EQUAL 0)
-            message(FATAL_ERROR "Running tests failed!")
-          endif()
-          
-          execute_process(
-            COMMAND cmake -S . -B cmake-build-debug -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -DCMAKE_BUILD_TYPE=Debug
-            RESULT_WORKING_DIRECTORY build
-            RESULT_VARIABLE result
-          )
-          
-          if (NOT result EQUAL 0)
-            message(FATAL_ERROR "Running tests failed!")
-          endif()
+          if [ "${{ matrix.config.cxx }}" == "g++" ]; then
+              cmake -S . -B cmake-build-release -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles"
+              cmake -S . -B cmake-build-debug -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles"
+          else 
+              cmake -S . -B cmake-build-release -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -DCMAKE_BUILD_TYPE=Release
+              cmake -S . -B cmake-build-debug -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -DCMAKE_BUILD_TYPE=Debug
+          fi
 
       - name: Build main target
         run: |
