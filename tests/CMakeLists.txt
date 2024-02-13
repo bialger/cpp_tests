@@ -49,6 +49,7 @@ if(WIN32)
         add_custom_command(TARGET ${PROJECT_NAME}_tests POST_BUILD
                 COMMAND "cp" ARGS "${GTEST_DIR}/libgtest.${MINGW_LIBRARY_EXTENSION}" "${CMAKE_BINARY_DIR}/libgtest.${MINGW_LIBRARY_EXTENSION}"
                 COMMAND "cp" ARGS "${GTEST_DIR}/libgtest_main.${MINGW_LIBRARY_EXTENSION}" "${CMAKE_BINARY_DIR}/libgtest_main.${MINGW_LIBRARY_EXTENSION}"
+                COMMAND "cp" ARGS "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_tests.exe" "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_tests_.exe"
                 COMMENT "Copying to output directory")
     endif()
 endif()
