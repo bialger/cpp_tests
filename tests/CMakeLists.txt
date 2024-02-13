@@ -29,16 +29,24 @@ target_link_libraries(
         GTest::gtest_main
 )
 
+set(MSVC_LIBRARY_EXTENSION lib)
+set(MINGW_LIBRARY_EXTENSION a)
+
+if (NOT GITHUB_ACTIONS)
+    set(MSVC_LIBRARY_EXTENSION dll)
+    set(MINGW_LIBRARY_EXTENSION dll)
+endif ()
+
 if(WIN32)
     if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         add_custom_command(TARGET ${PROJECT_NAME}_tests POST_BUILD
-                COMMAND "cp" ARGS "${CMAKE_BINARY_DIR}/bin/Debug/gtest.dll" "${CMAKE_BINARY_DIR}/Debug/gtest.dll"
-                COMMAND "cp" ARGS "${CMAKE_BINARY_DIR}/bin/Debug/gtest_main.dll" "${CMAKE_BINARY_DIR}/Debug/gtest_main.dll"
+                COMMAND "cp" ARGS "${CMAKE_BINARY_DIR}/bin/Debug/gtest.${MSVC_LIBRARY_EXTENSION}" "${CMAKE_BINARY_DIR}/Debug/gtest.${MSVC_LIBRARY_EXTENSION}"
+                COMMAND "cp" ARGS "${CMAKE_BINARY_DIR}/bin/Debug/gtest_main.${MSVC_LIBRARY_EXTENSION}" "${CMAKE_BINARY_DIR}/Debug/gtest_main.${MSVC_LIBRARY_EXTENSION}"
                 COMMENT "Copying to output directory")
     else ()
         add_custom_command(TARGET ${PROJECT_NAME}_tests POST_BUILD
-                COMMAND "cp" ARGS "${CMAKE_BINARY_DIR}/bin/libgtest.dll" "${CMAKE_BINARY_DIR}/libgtest.dll"
-                COMMAND "cp" ARGS "${CMAKE_BINARY_DIR}/bin/libgtest_main.dll" "${CMAKE_BINARY_DIR}/libgtest_main.dll"
+                COMMAND "cp" ARGS "${CMAKE_BINARY_DIR}/bin/libgtest.${MINGW_LIBRARY_EXTENSION}" "${CMAKE_BINARY_DIR}/libgtest.${MINGW_LIBRARY_EXTENSION}"
+                COMMAND "cp" ARGS "${CMAKE_BINARY_DIR}/bin/libgtest_main.${MINGW_LIBRARY_EXTENSION}" "${CMAKE_BINARY_DIR}/libgtest_main.${MINGW_LIBRARY_EXTENSION}"
                 COMMENT "Copying to output directory")
     endif()
 endif()
