@@ -68,12 +68,12 @@ jobs:
       - name: Build main target
         shell: bash
         run: |
-          cmake --build cmake-build-release --target cpp_tests || echo "Builded with errors"
+          cmake --build cmake-build-release --target cpp_tests || echo "Built with errors"
 
       - name: Build tests target
         shell: bash
         run: |
-          cmake --build cmake-build-debug --target cpp_tests_tests || echo "Builded with errors"
+          cmake --build cmake-build-debug --target cpp_tests_tests || echo "Built with errors"
 
       - name: Run program
         shell: bash
