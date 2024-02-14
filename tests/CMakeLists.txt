@@ -31,25 +31,41 @@ target_link_libraries(
 
 set(MSVC_LIBRARY_EXTENSION lib)
 set(MINGW_LIBRARY_EXTENSION a)
-set(GTEST_DIR "${CMAKE_BINARY_DIR}/lib")
+set(GTEST_DIR "${CMAKE_BINARY_DIR}/${GTEST_RELATIVE_DIR}")
 
-if (NOT GITHUB_ACTIONS)
+if (NOT GTEST_RELATIVE_DIR)
     set(MSVC_LIBRARY_EXTENSION dll)
     set(MINGW_LIBRARY_EXTENSION dll)
     set(GTEST_DIR "${CMAKE_BINARY_DIR}/bin")
 endif ()
 
+# For Windows: prevents error with gtest.dll not found
 if(WIN32)
+    # If terminal emulator is not declared, then it is cmd.exe
+    if (NOT TERMINAL_EMULATOR)
+        set(TERMINAL_EMULATOR cmd)
+    endif ()
+
+    set(WIN_DIR_SEPARATOR "/")
+    set(WIN_COPY_COMMAND cp)
+
+    if (TERMINAL_EMULATOR  STREQUAL "cmd")
+        set(WIN_DIR_SEPARATOR "\\")
+        set(WIN_COPY_COMMAND copy)
+    endif ()
+
+    string(REPLACE "/" ${WIN_DIR_SEPARATOR} WIN_CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR})
+    string(REPLACE "/" ${WIN_DIR_SEPARATOR} WIN_GTEST_DIR ${GTEST_DIR})
     if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         add_custom_command(TARGET ${PROJECT_NAME}_tests POST_BUILD
-                COMMAND "cp" ARGS "${GTEST_DIR}/Debug/gtest.${MSVC_LIBRARY_EXTENSION}" "${CMAKE_BINARY_DIR}/Debug/gtest.${MSVC_LIBRARY_EXTENSION}"
-                COMMAND "cp" ARGS "${GTEST_DIR}/Debug/gtest_main.${MSVC_LIBRARY_EXTENSION}" "${CMAKE_BINARY_DIR}/Debug/gtest_main.${MSVC_LIBRARY_EXTENSION}"
-                COMMENT "Copying to output directory")
+                COMMAND ${WIN_COPY_COMMAND} ARGS "${WIN_GTEST_DIR}${WIN_DIR_SEPARATOR}Debug${WIN_DIR_SEPARATOR}gtest.${MSVC_LIBRARY_EXTENSION}" "${WIN_CMAKE_BINARY_DIR}${WIN_DIR_SEPARATOR}Debug${WIN_DIR_SEPARATOR}gtest.${MSVC_LIBRARY_EXTENSION}"
+                COMMAND ${WIN_COPY_COMMAND} ARGS "${WIN_GTEST_DIR}${WIN_DIR_SEPARATOR}Debug${WIN_DIR_SEPARATOR}gtest_main.${MSVC_LIBRARY_EXTENSION}" "${WIN_CMAKE_BINARY_DIR}${WIN_DIR_SEPARATOR}Debug${WIN_DIR_SEPARATOR}gtest_main.${MSVC_LIBRARY_EXTENSION}"
+                COMMENT "Copying to output directory: ${WIN_COPY_COMMAND} ${WIN_GTEST_DIR}${WIN_DIR_SEPARATOR}Debug${WIN_DIR_SEPARATOR}gtest.${MSVC_LIBRARY_EXTENSION} ${WIN_CMAKE_BINARY_DIR}${WIN_DIR_SEPARATOR}Debug${WIN_DIR_SEPARATOR}gtest.${MSVC_LIBRARY_EXTENSION}")
     else ()
         add_custom_command(TARGET ${PROJECT_NAME}_tests POST_BUILD
-                COMMAND "cp" ARGS "${GTEST_DIR}/libgtest.${MINGW_LIBRARY_EXTENSION}" "${CMAKE_BINARY_DIR}/libgtest.${MINGW_LIBRARY_EXTENSION}"
-                COMMAND "cp" ARGS "${GTEST_DIR}/libgtest_main.${MINGW_LIBRARY_EXTENSION}" "${CMAKE_BINARY_DIR}/libgtest_main.${MINGW_LIBRARY_EXTENSION}"
-                COMMAND "cp" ARGS "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_tests.exe" "${CMAKE_BINARY_DIR}/${PROJECT_NAME}_tests_.exe"
+                COMMAND ${WIN_COPY_COMMAND} ARGS "${WIN_GTEST_DIR}${WIN_DIR_SEPARATOR}libgtest.${MINGW_LIBRARY_EXTENSION}" "${WIN_CMAKE_BINARY_DIR}${WIN_DIR_SEPARATOR}libgtest.${MINGW_LIBRARY_EXTENSION}"
+                COMMAND ${WIN_COPY_COMMAND} ARGS "${WIN_GTEST_DIR}${WIN_DIR_SEPARATOR}libgtest_main.${MINGW_LIBRARY_EXTENSION}" "${WIN_CMAKE_BINARY_DIR}${WIN_DIR_SEPARATOR}libgtest_main.${MINGW_LIBRARY_EXTENSION}"
+                COMMAND ${WIN_COPY_COMMAND} ARGS "${WIN_CMAKE_BINARY_DIR}${WIN_DIR_SEPARATOR}${PROJECT_NAME}_tests.exe" "${WIN_CMAKE_BINARY_DIR}${WIN_DIR_SEPARATOR}${PROJECT_NAME}_tests_.exe"
                 COMMENT "Copying to output directory")
     endif()
 endif()
