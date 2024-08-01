@@ -73,9 +73,9 @@ jobs:
         run: |
           if [ "$RUNNER_OS" == "Windows" ]; then
               if [ "${{ matrix.config.cxx }}" == "g++" ]; then
-                 echo "Currently unable to run tests on ${{ matrix.config.name }}"
-#                ./cpp_tests_tests.exe
-#                See https://gitmemories.com/cristianadam/HelloWorld/issues/12 and https://github.com/microsoft/vscode-cmake-tools/issues/2451
+                echo "Currently unable to run tests on ${{ matrix.config.name }}"
+                # ./cpp_tests_tests.exe
+                # See https://gitmemories.com/cristianadam/HelloWorld/issues/12 and https://github.com/microsoft/vscode-cmake-tools/issues/2451
               else 
                 ./cpp_tests_tests.exe
               fi
