@@ -97,7 +97,7 @@ jobs:
         run: |
           if [ "$RUNNER_OS" == "Windows" ]; then
               if [ "${{ matrix.config.cxx }}" == "g++" ]; then
-                ./cpp_tests_tests_.exe
+                ./cpp_tests_tests.exe
               else
                 cd Debug
                 ./cpp_tests_tests.exe
