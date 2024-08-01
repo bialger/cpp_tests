@@ -99,7 +99,7 @@ jobs:
               if [ "${{ matrix.config.cxx }}" == "g++" ]; then
                 ./cpp_tests_tests.exe
               else
-                cd Debug
+                cd Debug 
                 ./cpp_tests_tests.exe
               fi
           else
