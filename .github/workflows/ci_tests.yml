@@ -16,11 +16,11 @@ jobs:
             build_type: "Release", cc: "cl", cxx: "cl",
             environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
           }
-#          - {
-#            name: "Windows Latest MinGW", artifact: "Windows-MinGW.tar.xz",
-#            os: windows-latest,
-#            build_type: "Release", cc: "gcc", cxx: "g++"
-#          } # some fatal errors using MinGw; MSVC - ok
+          - {
+            name: "Windows Latest MinGW", artifact: "Windows-MinGW.tar.xz",
+            os: windows-latest,
+            build_type: "Release", cc: "gcc", cxx: "g++"
+          }
           - {
             name: "Ubuntu Latest GCC", artifact: "Linux.tar.xz",
             os: ubuntu-latest,
@@ -58,11 +58,11 @@ jobs:
         shell: bash
         run: |
           if [ "${{ matrix.config.cxx }}" == "g++" ]; then
-              cmake -S . -B cmake-build-release -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -DCMAKE_BUILD_TYPE=Release -DGTEST_RELATIVE_DIR=lib -DTERMINAL_EMULATOR=bash -G "Unix Makefiles"
-              cmake -S . -B cmake-build-debug -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -DCMAKE_BUILD_TYPE=Debug -DGTEST_RELATIVE_DIR=lib -DTERMINAL_EMULATOR=bash -G "Unix Makefiles"
+              cmake -S . -B cmake-build-release -DCMAKE_BUILD_TYPE=Releaseh -G "Unix Makefiles"
+              cmake -S . -B cmake-build-debug -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles"
           else 
-              cmake -S . -B cmake-build-release -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -DCMAKE_BUILD_TYPE=Release -DGTEST_RELATIVE_DIR=lib -DTERMINAL_EMULATOR=bash
-              cmake -S . -B cmake-build-debug -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -DCMAKE_BUILD_TYPE=Debug -DGTEST_RELATIVE_DIR=lib -DTERMINAL_EMULATOR=bash
+              cmake -S . -B cmake-build-release -DCMAKE_BUILD_TYPE=Release
+              cmake -S . -B cmake-build-debug -DCMAKE_BUILD_TYPE=Debug
           fi
 
       - name: Build main target
