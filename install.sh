@@ -5,12 +5,14 @@ PROJECT_NAME="cpp_tests"
 CMAKE_BUILD_DIR="$HOME/CMakeBuilds"
 CMAKE_PROJECT_DIR="$CMAKE_BUILD_DIR/$PROJECT_NAME"
 
-if [ -e "$CMAKE_PROJECT_DIR" ]; then
-  rm -rf "$CMAKE_PROJECT_DIR"
+if [ "x$SAVE_PREV" = "x" ]; then
+  if [ -e "$CMAKE_PROJECT_DIR" ]; then
+    rm -rf "$CMAKE_PROJECT_DIR"
+  fi
 fi
 
 EXEC_EXTENSION=".exe"
-EXEC_PATH="$CMAKE_PROJECT_DIR/Debug/$PROJECT_NAME$EXEC_EXTENSION"
+EXEC_PATH="$CMAKE_PROJECT_DIR/$PROJECT_NAME$EXEC_EXTENSION"
 
 if [ "$OS_NAME" = "Linux" ]; then
   EXEC_EXTENSION=".run"
@@ -22,7 +24,7 @@ fi
 
 EXEC_LINK_PATH="$HOME/$PROJECT_NAME$EXEC_EXTENSION"
 
-if (cmake -S . -B "$CMAKE_PROJECT_DIR" -DCMAKE_BUILD_TYPE=Release && cmake --build "$CMAKE_PROJECT_DIR" --target "$PROJECT_NAME"); then
+if (cmake -S . -B "$CMAKE_PROJECT_DIR" -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" && cmake --build "$CMAKE_PROJECT_DIR" --target "$PROJECT_NAME"); then
   rm -f "$EXEC_LINK_PATH"
   ln -s "$EXEC_PATH" "$EXEC_LINK_PATH"
   echo ''
@@ -40,7 +42,7 @@ if (cmake -S . -B "$CMAKE_PROJECT_DIR" -DCMAKE_BUILD_TYPE=Release && cmake --bui
       COMMON_EXEC_PATH="$COMMON_PROJECT_DIR/bin/$PROJECT_NAME"
 
       if [ "$CHOISE" = "y" ]; then
-        sudo rm -f "$COMMON_LINK_PATH"
+        sudo -S rm -f "$COMMON_LINK_PATH"
 
         if (sudo ln -s "$EXEC_PATH" "$COMMON_LINK_PATH"); then
           if [ -e "$COMMON_PROJECT_DIR" ]; then
@@ -63,7 +65,12 @@ if (cmake -S . -B "$CMAKE_PROJECT_DIR" -DCMAKE_BUILD_TYPE=Release && cmake --bui
     fi
 
     exit 0
-  else024d1f50-bba3-4e7f-a124-32ab0f76a567
+  elif (cd "$CMAKE_PROJECT_DIR" && "./$PROJECT_NAME$EXEC_EXTENSION" -h >/dev/null 2>/dev/null); then
+    echo "Congratulations! $PROJECT_NAME was compiled successfully. But it is impossible to create a link to it - run it from $CMAKE_BUILD_DIR as .\\$PROJECT_NAME$EXEC_EXTENSION"
+    echo ''
+    cd "$CMAKE_PROJECT_DIR" && "./$PROJECT_NAME$EXEC_EXTENSION" -h
+    exit 0
+  else
     echo 'Oops! Could not execute the program.'
     exit 1
   fi
