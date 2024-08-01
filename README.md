@@ -1,11 +1,11 @@
 # C++ project template with Google Tests and CI/CD
 
-This is a project template. Feel free to use it. It contains all pre-configured 
+This is a project template. Feel free to use & fork it. It contains all pre-configured 
 CMakeLists.txt, so to use it, just replace project name with your in 
 [main CmakeLists.txt](CMakeLists.txt), and all target and executable names in 
-[CI/CD script](./.github/workflows/ci_tests.yml). Sample program prints first argument.
+[CI/CD script](./.github/workflows/ci_tests.yml). Sample program prints a greeting for the first argument.
 
-## How to run
+## How to build and run
 
 Run following commands from project directory.
 
@@ -32,10 +32,10 @@ cmake --build cmake-build --target cpp_tests_tests
 * On Windows:
 
 ```shell
-.\cmake-build\bin\cpp_tests.exe World || .\cmake-build\bin\Debug\cpp_tests.exe World
+.\cmake-build\cpp_tests.exe World
 ```
 
-* On POSIX:
+* On *nix:
 
 ```shell
 ./cmake-build/bin/cpp_tests World
@@ -46,10 +46,10 @@ cmake --build cmake-build --target cpp_tests_tests
 * On Windows:
 
 ```shell
-.\cmake-build\tests\cpp_tests_tests.exe || .\cmake-build\tests\Debug\cpp_tests_tests.exe
+.\cmake-build\cpp_tests_tests.exe
 ```
 
-* On POSIX:
+* On *nix:
 
 ```shell
 ./cmake-build/tests/cpp_tests_tests
