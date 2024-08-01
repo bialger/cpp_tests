@@ -64,7 +64,6 @@ jobs:
               if [ "${{ matrix.config.cxx }}" == "g++" ]; then
                 ./cpp_tests.exe --help
               else
-                cd Debug
                 ./cpp_tests.exe --help
               fi
           else 
@@ -79,8 +78,7 @@ jobs:
           if [ "$RUNNER_OS" == "Windows" ]; then
               if [ "${{ matrix.config.cxx }}" == "g++" ]; then
                 ./cpp_tests_tests.exe
-              else
-                cd Debug 
+              else 
                 ./cpp_tests_tests.exe
               fi
           else
