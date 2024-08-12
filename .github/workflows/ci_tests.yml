@@ -39,11 +39,11 @@ jobs:
         shell: bash
         run: |
           if [ "${{ matrix.config.cxx }}" == "g++" ]; then
-              cmake -S . -B cmake-build-release -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles"
-              cmake -S . -B cmake-build-debug -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles"
+            cmake -S . -B cmake-build-release -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles"
+            cmake -S . -B cmake-build-debug -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles"
           else 
-              cmake -S . -B cmake-build-release -DCMAKE_BUILD_TYPE=Release
-              cmake -S . -B cmake-build-debug -DCMAKE_BUILD_TYPE=Debug
+            cmake -S . -B cmake-build-release -DCMAKE_BUILD_TYPE=Release
+            cmake -S . -B cmake-build-debug -DCMAKE_BUILD_TYPE=Debug
           fi
 
       - name: Build main target
@@ -61,10 +61,15 @@ jobs:
         working-directory: ./cmake-build-release
         run: |
           if [ "$RUNNER_OS" == "Windows" ]; then
-              ./cpp_tests.exe --help
-          else 
+            if [ "${{ matrix.config.cxx }}" == "g++" ]; then
               cd bin
-              ./cpp_tests --help
+              ./cpp_tests.exe --help
+            else 
+              ./cpp_tests.exe --help
+            fi
+          else 
+            cd bin
+            ./cpp_tests --help
           fi
 
       - name: Run tests
@@ -72,15 +77,16 @@ jobs:
         working-directory: ./cmake-build-debug
         run: |
           if [ "$RUNNER_OS" == "Windows" ]; then
-              if [ "${{ matrix.config.cxx }}" == "g++" ]; then
-                echo "Currently unable to run tests on ${{ matrix.config.name }}. See https://gitmemories.com/cristianadam/HelloWorld/issues/12 and https://github.com/microsoft/vscode-cmake-tools/issues/2451"
-                # ./cpp_tests_tests.exe
-              else 
-                ./cpp_tests_tests.exe
-              fi
-          else
+            if [ "${{ matrix.config.cxx }}" == "g++" ]; then
+              # echo "Currently unable to run tests on ${{ matrix.config.name }}. See https://gitmemories.com/cristianadam/HelloWorld/issues/12 and https://github.com/microsoft/vscode-cmake-tools/issues/2451"
               cd tests
-              ./cpp_tests_tests
+              ./cpp_tests_tests.exe
+            else 
+              ./cpp_tests_tests.exe
+            fi
+          else
+            cd tests
+            ./cpp_tests_tests
           fi
 
   memory-leaks:

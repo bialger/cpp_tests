@@ -9,7 +9,7 @@ project(
 
 set(CMAKE_CXX_STANDARD 20)
 
-if(WIN32) # Install dlls in the same directory as the executable on Windows
+if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "MSVC") # Install dlls in the same directory as the executable on Windows MSVC
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR})
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR})
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR})
