@@ -29,9 +29,9 @@ target_link_libraries(
         GTest::gtest_main
 )
 
-if(NOT CMAKE_BUILD_TYPE)
+if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug) # Tests should be built with Debug
-endif()
+endif ()
 
 message(STATUS "Tests build type: ${CMAKE_BUILD_TYPE}")
 
