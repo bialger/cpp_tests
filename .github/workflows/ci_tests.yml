@@ -3,7 +3,40 @@ name: "CI tests"
 on: [ push ]
 
 jobs:
-  build:
+  build-mingw:
+    name: Tests and application run on Windows Latest MinGW
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create CMake cache
+        run: |
+          cmake -S . -B cmake-build-release -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles"
+          cmake -S . -B cmake-build-debug -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles"
+
+      - name: Build main target
+        shell: bash
+        run: |
+          cmake --build cmake-build-release --target cpp_tests || echo Built with errors
+
+      - name: Build tests target
+        shell: bash
+        run: |
+          cmake --build cmake-build-debug --target cpp_tests_tests || echo Built with errors
+
+      - name: Run program
+        working-directory: .\cmake-build-release\bin
+        run: |
+          .\cpp_tests.exe --help
+
+      - name: Run tests
+        working-directory: .\cmake-build-debug\tests
+        run: |
+          echo "Currently unable to run tests on Windows Latest MinGW. See https://gitmemories.com/cristianadam/HelloWorld/issues/12 and https://github.com/microsoft/vscode-cmake-tools/issues/2451"
+          % .\cpp_tests_tests.exe
+
+  build-matrix:
     name: Tests and application run on ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
     strategy:
@@ -15,11 +48,6 @@ jobs:
             os: windows-latest,
             build_type: "Release", cc: "cl", cxx: "cl",
             environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
-          }
-          - {
-            name: "Windows Latest MinGW", artifact: "Windows-MinGW.tar.xz",
-            os: windows-latest,
-            build_type: "Release", cc: "gcc", cxx: "g++"
           }
           - {
             name: "Ubuntu Latest GCC", artifact: "Linux.tar.xz",
@@ -38,13 +66,8 @@ jobs:
       - name: Create CMake cache
         shell: bash
         run: |
-          if [ "${{ matrix.config.cxx }}" == "g++" ]; then
-              cmake -S . -B cmake-build-release -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles"
-              cmake -S . -B cmake-build-debug -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles"
-          else 
-              cmake -S . -B cmake-build-release -DCMAKE_BUILD_TYPE=Release
-              cmake -S . -B cmake-build-debug -DCMAKE_BUILD_TYPE=Debug
-          fi
+          cmake -S . -B cmake-build-release -DCMAKE_BUILD_TYPE=Release
+          cmake -S . -B cmake-build-debug -DCMAKE_BUILD_TYPE=Debug
 
       - name: Build main target
         shell: bash
@@ -61,10 +84,10 @@ jobs:
         working-directory: ./cmake-build-release
         run: |
           if [ "$RUNNER_OS" == "Windows" ]; then
-              ./cpp_tests.exe --help
+            ./cpp_tests.exe --help
           else 
-              cd bin
-              ./cpp_tests --help
+            cd bin
+            ./cpp_tests --help
           fi
 
       - name: Run tests
@@ -72,15 +95,10 @@ jobs:
         working-directory: ./cmake-build-debug
         run: |
           if [ "$RUNNER_OS" == "Windows" ]; then
-              if [ "${{ matrix.config.cxx }}" == "g++" ]; then
-                echo "Currently unable to run tests on ${{ matrix.config.name }}. See https://gitmemories.com/cristianadam/HelloWorld/issues/12 and https://github.com/microsoft/vscode-cmake-tools/issues/2451"
-                # ./cpp_tests_tests.exe
-              else 
-                ./cpp_tests_tests.exe
-              fi
+            ./cpp_tests_tests.exe
           else
-              cd tests
-              ./cpp_tests_tests
+            cd tests
+            ./cpp_tests_tests
           fi
 
   memory-leaks:
