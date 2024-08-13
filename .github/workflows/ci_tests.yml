@@ -26,12 +26,12 @@ jobs:
           cmake --build cmake-build-debug --target cpp_tests_tests || echo Built with errors
 
       - name: Run program
-        working-directory: .\cmake-build-release\bin
+        working-directory: .\cmake-build-release
         run: |
           .\cpp_tests.exe --help
 
       - name: Run tests
-        working-directory: .\cmake-build-debug\tests
+        working-directory: .\cmake-build-debug
         run: |
           echo "Currently unable to run tests on Windows Latest MinGW. See https://gitmemories.com/cristianadam/HelloWorld/issues/12 and https://github.com/microsoft/vscode-cmake-tools/issues/2451"
           % .\cpp_tests_tests.exe
@@ -61,7 +61,7 @@ jobs:
           }
     
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Create CMake cache
         shell: bash
@@ -105,7 +105,7 @@ jobs:
     name: Find memory leaks in tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install valgrind
         run: |
