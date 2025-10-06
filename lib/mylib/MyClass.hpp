@@ -4,13 +4,13 @@
 #include <iostream>
 
 class MyClass {
- public:
+public:
   explicit MyClass(std::ostream& out);
 
   void Print(const std::string& str);
 
- private:
+private:
   std::ostream& out_;
 };
 
-#endif //MYCLASS_HPP_
+#endif // MYCLASS_HPP_

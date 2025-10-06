@@ -1,10 +1,9 @@
 #ifndef TESTFUNCTIONS_HPP_
 #define TESTFUNCTIONS_HPP_
 
-#include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 
 std::vector<std::string> SplitString(const std::string& str);
 
-#endif //TESTFUNCTIONS_HPP_
+#endif // TESTFUNCTIONS_HPP_

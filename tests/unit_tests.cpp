@@ -1,8 +1,8 @@
 #include <sstream>
 
 #include <gtest/gtest.h>
-#include "test_functions.hpp" // include your library here
 #include "lib/mylib/MyClass.hpp"
+#include "test_functions.hpp" // include your library here
 
 TEST(MyLibUnitTestSuite, BasicTest1) {
   std::ostringstream out;
