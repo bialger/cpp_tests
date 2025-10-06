@@ -1,8 +1,16 @@
 # CMake
 **cmake-build*/
+build/
 
 # All idea files
 **.idea*/
+
+# Visual Studio Code
+.vscode/
+.history/
+
+# Clangd rules
+.clangd
 
 # File-based project format
 *.iws
