@@ -1,7 +1,6 @@
 #ifndef TEMPORARYDIRECTORYTESTSUITE_HPP_
 #define TEMPORARYDIRECTORYTESTSUITE_HPP_
 
-#include <filesystem>
 #include <string>
 
 #include <gtest/gtest.h>
@@ -14,4 +13,4 @@ struct ProjectIntegrationTestSuite : public testing::Test { // special test stru
   void TearDown() override; // method that is called at the end of every test
 };
 
-#endif //TEMPORARYDIRECTORYTESTSUITE_HPP_
+#endif // TEMPORARYDIRECTORYTESTSUITE_HPP_

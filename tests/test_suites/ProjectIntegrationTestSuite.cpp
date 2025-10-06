@@ -1,3 +1,5 @@
+#include <filesystem>
+
 #include "ProjectIntegrationTestSuite.hpp"
 
 void ProjectIntegrationTestSuite::SetUp() {
