@@ -1,0 +1,20 @@
+Checks: '-*,
+  modernize-*,
+  performance-*,
+  cppcoreguidelines-*,
+  bugprone-*,
+  -modernize-use-trailing-return-type,
+  -performance-no-int-to-ptr,
+  -cppcoreguidelines-avoid-const-or-ref-data-members,
+  -cppcoreguidelines-pro-type-reinterpret-cast,
+  -cppcoreguidelines-pro-type-union-access,
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+  -bugprone-exception-escape,
+  -bugprone-easily-swappable-parameters'
+
+WarningsAsErrors: ''
+HeaderFilterRegex: ''
+FormatStyle: none
+CheckOptions:
+  - key: modernize-use-using.IgnoreMacros
+    value: 'true'
